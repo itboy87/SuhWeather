@@ -6,11 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.suh.itboy.suhweather.Network.WeatherSync;
-
 public class MainActivity extends AppCompatActivity {
-
-    public static final String WEATHER_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?id=1164909&units=matric&mode=json&cnt=7";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,9 +15,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        WeatherSync weatherSync = new WeatherSync();
-        weatherSync.execute(WEATHER_URL);
 
     }
 
