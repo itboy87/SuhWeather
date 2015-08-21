@@ -1,9 +1,11 @@
 package com.suh.itboy.suhweather.Network;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.suh.itboy.suhweather.Interfaces.WeatherDataSync;
+import com.suh.itboy.suhweather.Utils.WeatherUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +18,8 @@ import java.net.URL;
  * Created by itboy on 8/20/2015.
  *
  */
-public class WeatherSync extends AsyncTask<String, Integer, String> {
+public class WeatherSync extends AsyncTask<String, Void, String[]> {
+    public static final String WEATHER_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily";
     public static final String TAG = WeatherSync.class.getSimpleName();
     WeatherDataSync dataSyncListener;
 
@@ -25,10 +28,19 @@ public class WeatherSync extends AsyncTask<String, Integer, String> {
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected String[] doInBackground(String... params) {
+        String units = "matric";
+        String mode = "json";
+        int days = 7;
         try {
             Thread.sleep(2000);
-            URL url = new URL(params[0]);
+            Uri uri = Uri.parse(WEATHER_BASE_URL).buildUpon()
+                    .appendQueryParameter("id", params[0])
+                    .appendQueryParameter("units", units)
+                    .appendQueryParameter("mode", mode)
+                    .appendQueryParameter("cnt", String.valueOf(days)).build();
+
+            URL url = new URL(uri.toString());
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
@@ -53,7 +65,9 @@ public class WeatherSync extends AsyncTask<String, Integer, String> {
             bufferedReader.close();
 
             Log.d(TAG, stringBuffer.toString());
-            return stringBuffer.toString();
+
+            return WeatherUtil
+                    .getWeatherDataFromJson(stringBuffer.toString(), days);
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -63,7 +77,7 @@ public class WeatherSync extends AsyncTask<String, Integer, String> {
     }
 
     @Override
-    protected void onPostExecute(String s) {
-        dataSyncListener.onWeatherDataSynced(s);
+    protected void onPostExecute(String[] forecastArray) {
+        dataSyncListener.onWeatherDataSynced(forecastArray);
     }
 }
