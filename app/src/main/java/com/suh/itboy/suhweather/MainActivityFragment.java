@@ -1,11 +1,13 @@
 package com.suh.itboy.suhweather;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -66,7 +68,16 @@ public class MainActivityFragment extends Fragment implements WeatherDataSync {
 
         ListView listView = (ListView) rootView.findViewById(R.id.listView_forecast);
         listView.setAdapter(mForecastAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String forecast = mForecastAdapter.getItem(position);
+                Intent intent = new Intent(getActivity(), DetailActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT, forecast);
+                startActivity(intent);
 
+            }
+        });
         return rootView;
     }
 
