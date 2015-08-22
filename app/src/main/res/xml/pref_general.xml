@@ -1,0 +1,15 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:defaultValue="@string/pref_city_value"
+        android:inputType="number"
+        android:key="@string/pref_city_key"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_city_title" />
+    <ListPreference
+        android:entries="@array/pref_unit_entries"
+        android:entryValues="@array/pref_unit_entry_values"
+        android:key="@string/pref_unit_key"
+        android:title="@string/pref_unit_title" />
+</PreferenceScreen>

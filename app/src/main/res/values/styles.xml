@@ -2,17 +2,20 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
-
-    </style>
-
-    <style name="AppTheme" parent="AppTheme.Base">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimaryInverse">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
     </style>
 
-    <style name="AppTheme.Toolbar" parent="AppTheme">
-        <item name="android:textColorPrimary">@color/white</item>
+    <style name="AppTheme" parent="AppTheme.Base">
+
+    </style>
+
+    <style name="AppTheme.Toolbar" parent="Theme.AppCompat.NoActionBar"></style>
+
+    <style name="AppTheme.ToolbarMenu" parent="AppTheme.Base">
     </style>
 
 </resources>

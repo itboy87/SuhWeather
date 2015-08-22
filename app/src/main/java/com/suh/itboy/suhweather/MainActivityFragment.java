@@ -2,9 +2,15 @@ package com.suh.itboy.suhweather;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,6 +20,7 @@ import android.widget.Toast;
 
 import com.suh.itboy.suhweather.Interfaces.WeatherDataSync;
 import com.suh.itboy.suhweather.Network.WeatherSync;
+import com.suh.itboy.suhweather.Utils.WeatherUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +31,7 @@ import java.util.List;
  */
 public class MainActivityFragment extends Fragment implements WeatherDataSync {
 
+    public static final String TAG = MainActivityFragment.class.getSimpleName();
     ArrayAdapter<String> mForecastAdapter;
     ProgressDialog progressDialog;
 
@@ -42,8 +50,7 @@ public class MainActivityFragment extends Fragment implements WeatherDataSync {
         progressDialog.setTitle("Loading Weather Data.");
         progressDialog.show();
 
-        WeatherSync weatherSync = new WeatherSync(this);
-        weatherSync.execute("1164909");
+        updateWeatherData();
 
         /*
         String forecastArray[] = {
@@ -78,21 +85,58 @@ public class MainActivityFragment extends Fragment implements WeatherDataSync {
 
             }
         });
+        setHasOptionsMenu(true);
         return rootView;
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        switch (id) {
+            case R.id.action_refresh:
+                updateWeatherData();
+                break;
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(settingsIntent);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
     public void onWeatherDataSynced(String[] forecastArray) {
+
         if (progressDialog != null && progressDialog.isShowing()){
             progressDialog.dismiss();
         }
         if (null == forecastArray) {
-            Toast.makeText(getActivity(), "Error Fetching Weather Data!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), WeatherUtil.getWeatherDataParseError(), Toast.LENGTH_SHORT).show();
         } else {
             List<String> weakForecast = new ArrayList<>(Arrays.asList(forecastArray));
             mForecastAdapter.clear();
             mForecastAdapter.addAll(weakForecast);
         }
 
+    }
+
+    public void updateWeatherData() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String cityId = preferences.getString(getString(R.string.pref_city_key), getString(R.string.pref_city_value));
+        Log.d(TAG, cityId);
+        WeatherSync weatherSync = new WeatherSync(this);
+        weatherSync.execute(cityId);
     }
 }

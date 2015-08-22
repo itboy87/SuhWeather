@@ -1,5 +1,6 @@
 package com.suh.itboy.suhweather;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -28,11 +29,15 @@ public class DetailActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(DetailActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

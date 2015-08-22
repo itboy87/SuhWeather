@@ -19,10 +19,12 @@ public class DetailActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         String forecast = getActivity().getIntent().getStringExtra(Intent.EXTRA_TEXT);
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         TextView detail_text = (TextView) rootView.findViewById(R.id.detail_text);
         detail_text.setText(forecast);
+
         return rootView;
     }
 }

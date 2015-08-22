@@ -11,6 +11,7 @@ import java.util.Calendar;
  * Created by itboy on 8/20/2015.
  */
 public class WeatherUtil {
+    private static String error_message = "";
     public static String getCurrentReadableDate() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd");
@@ -22,6 +23,8 @@ public class WeatherUtil {
     }
 
     public static String[] getWeatherDataFromJson(String forecastString, int numDays) {
+        error_message = "";
+
         final String W_LIST = "list";
         final String W_WEATHER = "weather";
         final String W_TEMP = "temp";
@@ -54,17 +57,21 @@ public class WeatherUtil {
                 return daysArray;
 
             } catch (JSONException e) {
-                /*try {
-                    String errorMessage = new JSONObject(forecastString).getString("message");
-                    Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                try {
+                    error_message = new JSONObject(forecastString).getString("message");
+//                    Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
                 } catch (JSONException e1) {
-                    Toast.makeText(getActivity(), "Unknown Error Parsing JSON", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "Unknown Error Parsing JSON", Toast.LENGTH_SHORT).show();
+                    error_message = "Unknown Error Parsing JSON";
                     e1.printStackTrace();
-                }*/
+                }
                 e.printStackTrace();
             }
         }
-
         return null;
+    }
+
+    public static String getWeatherDataParseError() {
+        return error_message;
     }
 }
