@@ -1,5 +1,11 @@
 package com.suh.itboy.suhweather.Utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.suh.itboy.suhweather.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +17,7 @@ import java.util.Calendar;
  * Created by itboy on 8/20/2015.
  */
 public class WeatherUtil {
+    public static Context context;
     private static String error_message = "";
     public static String getCurrentReadableDate() {
         Calendar c = Calendar.getInstance();
@@ -19,6 +26,9 @@ public class WeatherUtil {
     }
 
     public static String formatLowHighs(double low, double high) {
+        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(context);
+        preference.getString(context.getString(R.string.pref_unit_key), context.getString(R.string.pref_unit_metric));
+
         return String.valueOf(Math.round(low)) + "/" + String.valueOf(Math.round(high));
     }
 

@@ -35,14 +35,14 @@ public class SettingsActivity extends PreferenceActivity {
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.
 
-              /*  ListPreference listPreference = (ListPreference) preference;
+                ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue(stringValue);
 
                 // Set the summary to reflect the new value.
                 preference.setSummary(
                         index >= 0
                                 ? listPreference.getEntries()[index]
-                                : null);*/
+                                : null);
 
             } else {
                 // For all other preferences, set the summary to the value's

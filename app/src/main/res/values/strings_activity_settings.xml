@@ -5,11 +5,14 @@
     <string name="pref_city_value">1164909</string>
     <string name="pref_unit_title">Unit</string>
     <string name="pref_unit_key">UNIT</string>
-    <string name="pref_unit_value">Metric</string>
+    <string name="pref_unit_value">@string/pref_unit_metric</string>
+
+    <string name="pref_unit_metric">0</string>
+    <string name="pref_unit_imperial">1</string>
 
     <string-array name="pref_unit_entry_values">
-        <item>Metric</item>
-        <item>Imperial</item>
+        <item>@string/pref_unit_metric</item>
+        <item>@string/pref_unit_imperial</item>
     </string-array>
     <string-array name="pref_unit_entries">
         <item>Metric</item>

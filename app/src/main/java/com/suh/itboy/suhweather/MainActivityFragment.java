@@ -3,6 +3,7 @@ package com.suh.itboy.suhweather;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -110,6 +111,21 @@ public class MainActivityFragment extends Fragment implements WeatherDataSync {
                 Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(settingsIntent);
                 break;
+            case R.id.action_map_location:
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW);
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String location = preferences.getString(getString(R.string.pref_city_key), getString(R.string.pref_city_value));
+
+                Uri geoUri = Uri.parse("geo:0,0?").buildUpon()
+                        .appendQueryParameter("q", location).build();
+
+                mapIntent.setData(geoUri);
+
+                if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                } else {
+                    Toast.makeText(getActivity(), "Map Application Not Found!", Toast.LENGTH_SHORT).show();
+                }
         }
 
         return super.onOptionsItemSelected(item);
@@ -136,6 +152,9 @@ public class MainActivityFragment extends Fragment implements WeatherDataSync {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String cityId = preferences.getString(getString(R.string.pref_city_key), getString(R.string.pref_city_value));
         Log.d(TAG, cityId);
+        if (WeatherUtil.context == null) {
+            WeatherUtil.context = getActivity();
+        }
         WeatherSync weatherSync = new WeatherSync(this);
         weatherSync.execute(cityId);
     }
