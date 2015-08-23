@@ -8,6 +8,7 @@
         android:singleLine="true"
         android:title="@string/pref_city_title" />
     <ListPreference
+        android:defaultValue="@string/pref_unit_metric"
         android:entries="@array/pref_unit_entries"
         android:entryValues="@array/pref_unit_entry_values"
         android:key="@string/pref_unit_key"
