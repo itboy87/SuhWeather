@@ -55,7 +55,23 @@ public class WeatherProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(Uri uri) {
-        return null;
+        int match = sUriMatcher.match(uri);
+        switch (match){
+            case WEATHER_WITH_LOCATION_AND_DATE:
+                return WeatherContract.WeatherEntry.CONTENT_ITEM_TYPE;
+
+            case WEATHER_WITH_LOCATION:
+                return WeatherContract.WeatherEntry.CONTENT_TYPE;
+
+            case WEATHER:
+                return WeatherContract.WeatherEntry.CONTENT_TYPE;
+
+            case LOCATION:
+                return WeatherContract.LocationEntry.CONTENT_TYPE;
+
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
     }
 
     @Nullable

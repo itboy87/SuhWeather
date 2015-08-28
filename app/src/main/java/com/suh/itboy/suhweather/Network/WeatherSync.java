@@ -54,6 +54,7 @@ public class WeatherSync extends AsyncTask<String, Void, String[]> {
 
             StringBuilder stringBuffer = new StringBuilder();
             String line;
+
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuffer.append(line);
             }
